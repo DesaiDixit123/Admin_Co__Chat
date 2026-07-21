@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+
+body {@apply bg-white font-pop;}
+
+.text16 {@apply text-12 lg:text-14 2xl:text-16;}
+.text20 {@apply text-16 lg:text-18 2xl:text-20;}
+
+.text24 {@apply text-18 lg:text-20 2xl:text-24;}
+
+h3,.h3 {@apply text-22 md:text-26 lg:text-30 2xl:text-36 font-medium text-g1;}
+.nav_link{@apply flex items-center py-2.5 2xl:py-3 px-2.5 md:px-3 lg:px-4 2xl:px-5 rounded-xl;}
+
+/* .side_bar.active{@apply ;} */
+.anim{@apply duration-300 transition-all;}
+.side_bar.active aside ul .nav_link span:last-child {@apply lg:invisible lg:w-0 lg:overflow-hidden;}
+.side_bar.active aside {@apply lg:w-[92px];}
+.side_bar.active .main { @apply lg:w-[calc(100%-92px)];}
+.side_bar.active .logo {@apply lg:invisible;}
+/* .side_bar.active aside ul .nav_link {@apply lg:pl-3;} */
+.side_bar.active aside ul a.nav_link .drop_down {@apply lg:invisible lg:w-0 lg:overflow-hidden;}
+.side_bar.active aside ul .nav_link.title_menu span:nth-child(2) {@apply lg:invisible lg:w-0 lg:overflow-hidden;}
+.nav_link.active {@apply bg-primary;}
+.nav_link.active span{@apply text-white;}
+.nav_link.active>span{@apply visible -translate-x-0;}
+.side_bar li>ul>li .active {@apply text-primary;}
+.side_bar.active .title_menu.active + ul.drop_down{@apply lg:hidden;}
+input {@apply bg-transparent outline-none font-normal text-g1;}
+.input_sub{@apply w-full bg-white border border-l2 rounded-[10px] py-2 px-3.5 2xl:px-5 text-14 2xl:text-16 font-normal text-g1 block outline-none;}
+.input{@apply w-full bg-l4 border border-l2 rounded-xl lg:rounded-2xl py-2 px-3.5 2xl:px-5 text-14 2xl:text-16 font-normal text-g1 block outline-none;}
+.label{@apply text-12 md:text-14 text-g1 font-semibold block mb-1;}
+.btn_primary{@apply cursor-pointer w-full whitespace-nowrap inline-block py-1.5 lg:py-2 px-3 lg:px-4 2xl:px-6 bg-primary border border-primary rounded-xl text-12 lg:text-14 2xl:text-16 font-semibold text-white hover:bg-white hover:text-primary hover:border-primary;}
+.btn_secondary{@apply cursor-pointer w-full whitespace-nowrap inline-block py-1.5 lg:py-2 px-3 lg:px-4 2xl:px-6 bg-white border border-primary rounded-xl text-12 lg:text-14 2xl:text-16 font-semibold text-primary hover:bg-primary hover:text-white;}
+.excel_btn{@apply w-full bg-white border border-l2 rounded-[10px] py-1.5 lg:py-2 px-3.5 2xl:px-5 text-14 2xl:text-16 font-medium text-g1 block outline-none;}
+.radio{@apply w-5 h-5 2xl:w-6 2xl:h-6 rounded-full bg-white border-2 border-[#D9DBE9] flex items-center justify-center;}
+.radio span{@apply w-2 h-2 2xl:w-2.5 2xl:h-2.5 bg-primary rounded-full opacity-0;}
+input:checked + .radio{@apply border-primary;}
+input:checked + .radio span{@apply opacity-100;}
+
+tr td:last-child,
+tr th:last-child {
+  position: sticky !important;
+  right: 0;
+  z-index: 1;
+  background: inherit;
+  background-color: #fff;
+}
+
+@media (min-width: 767px) {
+  tr td:first-child,
+  tr th:first-child {
+    position: sticky !important;
+    left: 0;
+    z-index: 1;
+    background: inherit;
+    background-color: #fff;
+  }
+}
+
+/* table css start  */
+.custom_table table tr th{@apply text-14 font-semibold text-g1 px-2 py-1.5 bg-l3 whitespace-nowrap border-r border-l2 text-left;}
+.custom_table table tr td{@apply text-14 font-normal text-g6 px-2 py-1.5 whitespace-nowrap bg-white border-collapse border border-l3;}
+.custom_table table tr:nth-child(even) td{@apply bg-l4;}
+/* table css end  */
+
+/* input error  */
+.error {@apply text-[10px] 2xl:text-12 absolute bottom-0 left-2.5 xl:left-3.5 2xl:left-5 bg-white text-red;}
+
+/* ScrollBar Start */
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: #f5f5f5;
+}
+#open_sidebar ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #183A6B;
+}
+
+@media (max-width: 1440px) {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+/* ScrollBar End */
+
+/* Pagination Start */
+.p-paginator .p-paginator-pages .p-paginator-page,
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last,
+.p-paginator .p-paginator-last:hover {
+  color: #020617 !important;
+  font-weight: 500 !important;
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  font-size: 12px;
+}
+
+.p-paginator .p-dropdown {
+  height: auto !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #183A6B !important;
+  border-color: #183A6B !important;
+  color: #fff !important;
+  margin: 0 3px;
+}
+.paginator_course .p-paginator .p-paginator-pages .p-paginator-page {
+  padding: 16px;
+}
+/* Pagination End */
+
+/* Prime dropDown start*/
+
+.p-dropdown span.p-element.p-dropdown-label {
+  padding: 2px 4px !important;
+  font-size: 14px;
+}
+
+.p-dropdown .p-dropdown-trigger {
+  width: 35px;
+  justify-content: end;
+}
+.p-dropdown span.p-dropdown-label.p-inputtext {
+  padding: 2px 4px !important;
+  font-size: 14px;
+}
+
+.p-dropdown.p-inputwrapper {
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  margin: 0px !important;
+  /* margin-left: 15px !important; */
+  padding: 5px 10px;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  padding: 7px 15px;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  color: #fff;
+  background: #183A6B;
+}
+
+
+/* Drop Down */
+.p-dropdown.p-component.input_sub .p-dropdown-label.p-inputtext, .p-dropdown.p-component.input .p-dropdown-label.p-inputtext, .p-multiselect .p-multiselect-label{@apply p-0 text-g1;}
+.p-dropdown.p-inputwrapper-focus, .p-multiselect, .p-inputtext {@apply shadow-none outline-none !important;}
+.p-dropdown-item {@apply outline-none}
+.p-dropdown-filter{@apply border border-l2}
+.p-inputwrapper .p-dropdown-label.p-placeholder,.p-multiselect .p-multiselect-label.p-placeholder{@apply text-g7 !important}
+.p-multiselect-panel .p-multiselect-items {@apply bg-l3;}
+.p-multiselect-panel .p-multiselect-header{@apply bg-l2;}
+.p-multiselect-panel .p-multiselect-item.p-focus {@apply bg-g1/30;}
+.p-multiselect-panel .p-multiselect-item.p-highlight {@apply bg-transparent text-g1;}
+.p-multiselect-panel .p-multiselect-item.p-highlight .p-checkbox-box, .p-multiselect-select-all .p-highlight .p-checkbox-box {@apply bg-primary text-g1;}
+/* Prime dropDown end */
+
+/* Prime Input Switch start */
+.p-inputswitch.p-highlight .p-inputswitch-slider {background-color: #183A6B;}
+/* Prime Input Switch end */
+
+/* Phone input css start */
+.phone-input .flag-dropdown {@apply hidden;}
+.phone-input .form-control {@apply p-0 m-0 bg-transparent border-none h-auto w-full text-14 2xl:text-16 font-normal text-g1 !important;}
+/* Phone input css end */
+
+/* Image Preview Start*/
+.p-image-preview-container img{@apply w-full h-full object-cover;}
+.p-image-preview-container button{@apply w-full h-full bg-black/50 text-white;}
+.p-image-toolbar button.p-image-action{@apply text-white;}
+/* Image Preview End */
+@tailwind components;
+@tailwind utilities;
