@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { InputSwitch } from 'primereact/inputswitch';
 import { useDispatch } from 'react-redux';
-import { usersChangeStatus, usersListWithPagination } from '../../Store/Action/Users/User_Action';
+import { usersChangeStatus, usersDelete, usersListWithPagination } from '../../Store/Action/Users/User_Action';
 import { useUserList } from '../../Store/Selectors/Users/Users_Selector';
 import { Status } from '../../common/CommonArray';
 import CustomDropdown from '../../components/UI/CustomDropdown';
+import CommonDialog from '../../common/CommonDialog';
 import { assets } from '../../assets/images/assets';
 import toast from 'react-hot-toast';
 
@@ -17,27 +18,41 @@ const AllUsers = () => {
   const [search, setSearch] = useState("")
   const [selectedStatus, setSelectedStatus] = useState("")
   const [pagination, setPagination] = useState({ page: 1, limit: 10 })
+  const [deletePopup, setDeletePopup] = useState({ isOpen: false, data: null })
+  const [commonData, setCommonData] = useState({})
   const dispatch = useDispatch()
   const Data = useUserList()
+
+  const formatPhone = (countryCode, mobile) => {
+    if (!mobile) return "-";
+    let code = (countryCode || "+91").toString().trim();
+    if (!code.startsWith("+")) code = `+${code}`;
+    return `${code} ${mobile}`;
+  };
 
   const columns = [
     { key: "registerDate", label: "Register Date", renderCell: (key, row) => row?.createdAt ? moment.utc(row?.createdAt).format("DD-MM-YYYY") : "-" },
     {
       key: "name", label: "Full Name", renderCell: (key, row) => (<div className="flex items-center space-x-2.5">
-        <div className="w-5 h-5 rounded-full overflow-hidden">
+        <div className="w-6 h-6 rounded-full overflow-hidden bg-l3 shrink-0 flex items-center justify-center">
           <img src={row?.profileimage ? `${import.meta.env.VITE_BUCKET_URL}${row?.profileimage}` : assets.userDefaultImg} className="w-full h-full object-cover" alt="profile" />
         </div>
-        <span>{row?.fullname}</span>
+        <span>{row?.fullname?.trim() || row?.nickname?.trim() || (row?.mobile ? `User (${formatPhone(row?.country_code, row?.mobile)})` : '-')}</span>
       </div>)
     },
-    { key: "mobile", label: "Mobile No.", renderCell: (key, row) => row?.mobile ? `${row?.country_code} ${row?.mobile}` : "-" },
+    { key: "mobile", label: "Mobile No.", renderCell: (key, row) => formatPhone(row?.country_code, row?.mobile) },
     { key: "email", label: "Email", renderCell: (key, row) => row?.email || "-" },
     { key: "dob", label: "Date of Birth", renderCell: (key, row) => row?.dob || "-" },
     { key: "gender", label: "Gender", renderCell: (key, row) => row?.gender || "-" },
-    { key: "status", label: "Status", renderCell: (key, row) => <InputSwitch checked={row?.status} onChange={() => handleStatusChange(row.id)} /> },
+    { key: "status", label: "Status", renderCell: (key, row) => <InputSwitch checked={row?.status} onChange={() => handleStatusChange(row.id || row._id)} /> },
     {
       key: "action", label: "Action", renderCell: (key, row) => <div className="flex items-center space-x-2.5">
-        <span className="icon-eye text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row.id}`)}></span>
+        <span className="icon-eye text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row.id || row._id}`)}></span>
+        <span
+          title="Delete User"
+          className="icon-trash text-[18px] lg:text-[20px] xl:text-[22px] text-red-500 hover:brightness-75 cursor-pointer transition"
+          onClick={() => openDeleteDialog(row)}
+        ></span>
       </div>
     }
   ]
@@ -53,6 +68,35 @@ const AllUsers = () => {
     } catch (error) {
       console.log('error', error)
     }
+  }
+
+  const openDeleteDialog = (row) => {
+    const name = row?.fullname?.trim() || row?.nickname?.trim() || row?.mobile || "this user"
+    setCommonData({
+      title: "Delete User Account",
+      description: `Are you sure you want to permanently delete "${name}"? Their account will be removed and they can re-register with the same mobile number.`,
+      buttonNames: { firstBtn: "Cancel", secondBtn: "Delete" },
+    })
+    setDeletePopup({ isOpen: true, data: row })
+  }
+
+  const closeDeleteDialog = async (confirm) => {
+    if (confirm === true && deletePopup.data) {
+      try {
+        const userId = deletePopup.data._id || deletePopup.data.id
+        const response = await dispatch(usersDelete({ userId }))
+        if (response?.IsSuccess) {
+          toast.success(response?.Message || "User deleted successfully")
+          GetUserData(pagination.page, pagination.limit)
+        } else {
+          toast.error(response?.Message || "Failed to delete user")
+        }
+      } catch (error) {
+        console.log('error', error)
+        toast.error("Something went wrong")
+      }
+    }
+    setDeletePopup({ isOpen: false, data: null })
   }
 
   const GetUserData = async (page = 1, limit = 10) => {
@@ -96,6 +140,9 @@ const AllUsers = () => {
           <CustomTable columns={columns} data={Data?.data} isPagination={true} totalRecords={Data?.pagination?.total} handlePageChange={GetUserData} pagination={pagination} />
         </div>
       </div>
+      {deletePopup.isOpen && (
+        <CommonDialog CommonData={commonData} closeCommonDialog={closeDeleteDialog} />
+      )}
     </>
   )
 }

@@ -69,6 +69,7 @@ export const USERS = createFeatureActions("USER", [
   "LIST_WITH_PAGINATION",
   "GET_ONE",
   "CHANGE_STATUS",
+  "REMOVE",
 ]);
 
 // Product related action types
@@ -76,4 +77,11 @@ export const PRODUCTS = createFeatureActions("PRODUCT", [
   "LIST_WITH_PAGINATION",
   "GET_ONE",
   "CHANGE_STATUS",
+]);
+
+// Dashboard related action types
+export const DASHBOARD = createFeatureActions("DASHBOARD", [
+  "METRICS",
+  "CALL_ANALYTICS",
+  "RECENT_USERS",
 ]);

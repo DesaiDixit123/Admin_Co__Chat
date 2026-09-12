@@ -81,8 +81,23 @@ export const categoriesChangeStatus = (data) => api.post("admin/category/change-
 export const usersListWithPagination = (data) => api.post("admin/users/list", data);
 export const usersGetOne = (data) => api.post('admin/users/view', data);
 export const usersChangeStatus = (data) => api.post("admin/users/status/change", data); 
+export const usersDelete = (data) => api.post("admin/users/delete", data); 
 
 // 🔹 Products APIs
 export const productsListWithPagination = (data) => api.post("admin/products/list", data);
 export const productsGetOne = (data) => api.post('admin/products/view', data);
 export const productsChangeStatus = (data) => api.post("admin/products/status/change", data);
+
+// 🔹 Dashboard APIs
+export const dashboardMetrics = (data) => api.post("admin/dashboard/count", data);
+export const dashboardCallAnalytics = (range = "daily") => api.post(`admin/dashboard/call?range=${range}`);
+export const dashboardRecentUsers = (data) => api.post("admin/dashboard/users", data);
+
+// 🔹 Plan & Subscription APIs
+export const planSave = (data) => api.post("admin/plans/add", data);
+export const planListWithPagination = (data) => api.post("admin/plans/list", data);
+export const planListAll = (data) => api.post("admin/plans/list-all", data);
+export const planGetOne = (data) => api.post("admin/plans/view", data);
+export const planChangeStatus = (data) => api.post("admin/plans/status/change", data);
+export const planDelete = (data) => api.post("admin/plans/delete", data);
+export const planFunctionalityListAll = (data) => api.post("admin/plan-functionality/list-all", data || {});
