@@ -61,11 +61,9 @@ const Dashboard = () => {
   const inactiveUsers = metrics?.users?.inactive || 0;
   const activePercent = totalUsers > 0 ? Math.round((activeUsers / totalUsers) * 100) : 0;
 
-  // Derived ticket statistics from backend database
-  const totalTickets = metrics?.tickets?.all || 0;
-  const resolvedTickets = metrics?.tickets?.resolved || 0;
-  const pendingTickets = metrics?.tickets?.pending || 0;
-  const resolvedPercent = totalTickets > 0 ? Math.round((resolvedTickets / totalTickets) * 100) : 100;
+  // Derived call statistics for distribution
+  const totalCallMins = (metrics?.audioCalls?.monthlyMinutes || 0) + (metrics?.videoCalls?.monthlyMinutes || 0);
+  const audioCallShare = totalCallMins > 0 ? Math.round(((metrics?.audioCalls?.monthlyMinutes || 0) / totalCallMins) * 100) : 50;
 
   // Call Analytics data extraction
   const audioData = callAnalytics?.audio || [];
@@ -88,7 +86,7 @@ const Dashboard = () => {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-18 md:text-22 2xl:text-24 font-bold text-g1">
-                Welcome to Co!Chat Admin Dashboard
+                Welcome to ChatNest Admin Dashboard
               </h3>
               <span className="inline-flex items-center gap-1.5 bg-green/10 text-green text-11 font-semibold px-2.5 py-0.5 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-green animate-pulse"></span>
@@ -117,7 +115,7 @@ const Dashboard = () => {
         </div>
 
         {/* 1. Stat Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
           {/* Card 1: Total Users */}
           <div
             onClick={() => navigate('/users')}
@@ -171,37 +169,6 @@ const Dashboard = () => {
               <span>Active Catalog</span>
               <span className="text-primary font-semibold group-hover:translate-x-1 transition">
                 View &rarr;
-              </span>
-            </div>
-          </div>
-
-          {/* Card 3: Support Tickets */}
-          <div
-            onClick={() => navigate('/support-ticket')}
-            className="bg-white p-4 2xl:p-5 rounded-xl lg:rounded-2xl border border-l2 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-12 md:text-13 font-semibold text-g5 uppercase tracking-wider">
-                  Support Tickets
-                </p>
-                <h4 className="text-24 2xl:text-28 font-bold text-g1 mt-1">
-                  {metricsLoading ? '...' : totalTickets}
-                </h4>
-              </div>
-              <div className="w-10 h-10 2xl:w-11 2xl:h-11 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition">
-                <span className="icon-headphones text-20"></span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-l3 text-11 md:text-12">
-              <span className="inline-flex items-center gap-1 text-green font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-green"></span>
-                {resolvedTickets} Resolved
-              </span>
-              <span className="text-g7">•</span>
-              <span className="inline-flex items-center gap-1 text-red font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-red"></span>
-                {pendingTickets} Pending
               </span>
             </div>
           </div>
@@ -425,18 +392,18 @@ const Dashboard = () => {
 
                 <div>
                   <div className="flex items-center justify-between text-13 font-semibold text-g1 mb-1.5">
-                    <span>Ticket Resolution Rate</span>
-                    <span className="text-primary font-bold">{resolvedPercent}%</span>
+                    <span>Audio Call Share (30d)</span>
+                    <span className="text-primary font-bold">{audioCallShare}%</span>
                   </div>
                   <div className="w-full bg-l3 rounded-full h-2.5 overflow-hidden">
                     <div
                       className="bg-primary h-2.5 rounded-full transition-all duration-500"
-                      style={{ width: `${resolvedPercent}%` }}
+                      style={{ width: `${audioCallShare}%` }}
                     ></div>
                   </div>
                   <div className="flex justify-between text-11 text-g6 mt-1">
-                    <span>{resolvedTickets} resolved</span>
-                    <span>{totalTickets} total</span>
+                    <span>{metrics?.audioCalls?.monthlyMinutes || 0}m audio</span>
+                    <span>{metrics?.videoCalls?.monthlyMinutes || 0}m video</span>
                   </div>
                 </div>
               </div>
@@ -457,9 +424,9 @@ const Dashboard = () => {
                 </strong>
               </div>
               <div className="flex items-center justify-between text-g6">
-                <span>Support Status</span>
+                <span>System Status</span>
                 <span className="text-green font-semibold">
-                  {pendingTickets === 0 ? 'All Clear' : `${pendingTickets} Pending`}
+                  Operational (Live Sync)
                 </span>
               </div>
             </div>

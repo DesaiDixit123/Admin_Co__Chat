@@ -51,8 +51,8 @@ const MenuLeftBar = ({ InMenu = [], MainMenu = [] }) => {
                 />
                 <div className="pt-8 lg:pt-6 2xl:pt-8 px-4 lg:px-5 2xl:px-7">
                     <div className="border-b-[1.5px] border-l1 pb-4 lg:pb-6 2xl:pb-8">
-                        <Link>
-                            <img src={assets.logo} className={`mx-auto ${isOpen ? "max-w-40" : ""}`} alt="logo" />
+                        <Link to="/dashboard">
+                            <img src={assets.logo} className={`mx-auto max-h-[68px] 2xl:max-h-[82px] w-auto object-contain ${isOpen ? "max-w-[150px] 2xl:max-w-[164px]" : "max-w-10"}`} alt="ChatNest" />
                         </Link>
                     </div>
                 </div>

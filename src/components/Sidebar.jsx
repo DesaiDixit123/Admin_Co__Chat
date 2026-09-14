@@ -15,7 +15,7 @@ const Sidebar = () => {
     // -------- SUB MENU --------
     const inMenuResult = InMenu
       .map((item) => {
-        const hasPermission = permissions.some(
+        const hasPermission = item.isAlwaysVisible || permissions.some(
           (p) => p.displayname === item.displayname && p.view
         );
 
@@ -29,7 +29,7 @@ const Sidebar = () => {
     // -------- MAIN MENU --------
     const mainMenuResult = MainMenu
       .map((mainItem) => {
-        const hasDirectPermission = permissions.some(
+        const hasDirectPermission = mainItem.isAlwaysVisible || permissions.some(
           (p) => p.displayname === mainItem.displayname && p.view
         );
 

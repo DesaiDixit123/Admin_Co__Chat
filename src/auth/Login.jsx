@@ -47,7 +47,7 @@ const Login = () => {
         <>
             <div className="w-full min-h-screen  flex relative py-6 lg:py-8 2xl:py-10 px-5 2xl:px-6 bg-primary/10">
                 <div className="w-full mx-auto px-5 h-full my-auto flex flex-col items-center justify-center">
-                    <img src={assets.logo} className="max-w-48 mb-7" alt="logo" />
+                    <img src={assets.logo} className="max-w-56 max-h-28 2xl:max-h-32 w-auto object-contain mb-6" alt="ChatNest" />
                     <Formik initialValues={initialValues} validationSchema={handleValidation} onSubmit={handleSubmit}>
                         <Form className="w-full max-w-96 xl:max-w-[530px] bg-white rounded-xl lg:rounded-2xl 2xl:rounded-[20px] p-6 md:p-8 lg:p-10 2xl:p-12 my-auto">
                             <h4 className="text24 text-g1 font-semibold text-center">Admin Login</h4>

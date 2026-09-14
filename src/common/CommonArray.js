@@ -22,17 +22,26 @@ export const MainMenu = [
   },
   {
     displayname: "Plan Subscription",
-    route: "plans-subscription",
+    route: "",
     isOpen: false,
-    view: false,
+    view: true,
+    isAlwaysVisible: true,
     icon: "icon-user-fill",
   },
+  // {
+  //   displayname: "Support Ticket",
+  //   route: "support-ticket",
+  //   isOpen: false,
+  //   view: false,
+  //   icon: "icon-headphones-fill",
+  // },
   {
-    displayname: "Support Ticket",
-    route: "support-ticket",
+    displayname: "Master",
+    route: "",
     isOpen: false,
-    view: false,
-    icon: "icon-headphones-fill",
+    view: true,
+    isAlwaysVisible: true,
+    icon: "icon-master",
   },
   {
     displayname: "Admin Setup",
@@ -45,6 +54,27 @@ export const MainMenu = [
 ];
 
 export const InMenu = [
+  {
+    displayname: "All Plans",
+    route: "plans-subscription",
+    mainMenu: "Plan Subscription",
+    view: true,
+    isAlwaysVisible: true,
+  },
+  {
+    displayname: "Subscribed Users",
+    route: "plans-subscription/subscribers",
+    mainMenu: "Plan Subscription",
+    view: true,
+    isAlwaysVisible: true,
+  },
+  {
+    displayname: "GST Management",
+    route: "master/gst",
+    mainMenu: "Master",
+    view: true,
+    isAlwaysVisible: true,
+  },
   {
     displayname: "Admins",
     route: "admin",

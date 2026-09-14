@@ -215,6 +215,7 @@ const AllPlanSubscription = () => {
           <span
             title="Delete Plan"
             className="icon-trash text-[18px] text-red hover:brightness-75 cursor-pointer transition"
+            style={{ color: '#FF3B30' }}
             onClick={() => openDeleteDialog(row)}
           ></span>
         </div>
@@ -228,6 +229,23 @@ const AllPlanSubscription = () => {
 
       <div className="p-5 md:p-6 lg:p-7 h-[calc(100vh-77px)] md:h-[calc(100vh-85px)] overflow-y-auto bg-l4/60">
         <div className="flex flex-col h-full space-y-4">
+          {/* Navigation Tabs */}
+          <div className="flex items-center space-x-2 border-b border-l2 pb-2">
+            <button
+              type="button"
+              className="px-4 py-2 rounded-xl text-13 md:text-14 font-bold bg-white text-primary shadow-sm border border-l2"
+            >
+              All Plans ({totalRecords})
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/plans-subscription/subscribers')}
+              className="px-4 py-2 rounded-xl text-13 md:text-14 font-semibold text-g5 hover:text-g1 hover:bg-white transition"
+            >
+              Subscribed Users
+            </button>
+          </div>
+
           {/* Controls Bar */}
           <div className="flex flex-wrap justify-between sm:flex-nowrap items-center -mx-2">
             <div className="w-full xs:w-auto flex flex-wrap">

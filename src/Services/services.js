@@ -22,10 +22,15 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
     (response) => {
+        if (response.config?.responseType === 'blob' || response.data instanceof Blob) {
+            return response;
+        }
         if (response?.data?.IsSuccess) {
             // toast.success(response?.data?.Message);
         } else {
-            toast.error(response?.data?.Message || response?.data?.message);
+            if (response?.data?.Message || response?.data?.message) {
+                toast.error(response?.data?.Message || response?.data?.message);
+            }
         }
         return response;
     },
@@ -87,6 +92,7 @@ export const usersDelete = (data) => api.post("admin/users/delete", data);
 export const productsListWithPagination = (data) => api.post("admin/products/list", data);
 export const productsGetOne = (data) => api.post('admin/products/view', data);
 export const productsChangeStatus = (data) => api.post("admin/products/status/change", data);
+export const productsDelete = (data) => api.post("admin/products/delete", data);
 
 // 🔹 Dashboard APIs
 export const dashboardMetrics = (data) => api.post("admin/dashboard/count", data);
@@ -101,3 +107,14 @@ export const planGetOne = (data) => api.post("admin/plans/view", data);
 export const planChangeStatus = (data) => api.post("admin/plans/status/change", data);
 export const planDelete = (data) => api.post("admin/plans/delete", data);
 export const planFunctionalityListAll = (data) => api.post("admin/plan-functionality/list-all", data || {});
+export const planSubscribers = (data) => api.post("admin/plans/subscribers", data || {});
+export const downloadSubscriberInvoice = (id) => api.get(`admin/plans/invoice-download/${id}`, { responseType: 'blob' });
+
+// 🔹 GST APIs
+export const gstGet = (data) => api.post("admin/gst/get", data || {});
+export const gstSave = (data) => api.post("admin/gst/save", data);
+
+// 🔹 Notification APIs
+export const notificationListWithPagination = (data) => api.post("admin/notifications/list", data || {});
+export const notificationMarkRead = (data) => api.post("admin/notifications/mark-read", data || {});
+export const notificationClearAll = (data) => api.post("admin/notifications/clear-all", data || {});

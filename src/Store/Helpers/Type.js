@@ -77,6 +77,7 @@ export const PRODUCTS = createFeatureActions("PRODUCT", [
   "LIST_WITH_PAGINATION",
   "GET_ONE",
   "CHANGE_STATUS",
+  "REMOVE",
 ]);
 
 // Dashboard related action types

@@ -20,6 +20,8 @@ import AllPlanSubscription from "../pages/PlanSubscription/AllPlanSubscription"
 import AddEditPlanSubscription from "../pages/PlanSubscription/AddEditPlanSubscription"
 import SupportTicket from "../pages/SupportTicket/AllSupportTicket"
 import SupportTicketDetails from "../pages/SupportTicket/SupportTicketDetails"
+import GSTManagement from "../pages/Master/GSTManagement"
+import SubscribedUsers from "../pages/PlanSubscription/SubscribedUsers"
 
 const AllRoutes = () => {
     return (
@@ -60,17 +62,19 @@ const AllRoutes = () => {
                         <Route path="products/details/:id" element={<ProductDetails />} />
 
                         {/* Master */}
+                        <Route path="master/gst" element={<GSTManagement />} />
                         {/* Categories */}
                         <Route path="categories" element={<AllCategories />} />
 
                         {/* Plan Subscription   */}
                         <Route path="plans-subscription" element={<AllPlanSubscription />} />
+                        <Route path="plans-subscription/subscribers" element={<SubscribedUsers />} />
                         <Route path="plans-subscription/create" element={<AddEditPlanSubscription />} />
                         <Route path="plans-subscription/edit/:id" element={<AddEditPlanSubscription />} />
 
-                        {/* Support Ticket */}
-                        <Route path="support-ticket" element={<SupportTicket />} />
-                        <Route path="support-ticket/details/:id" element={<SupportTicketDetails />} />
+                        {/* Support Ticket (Hidden) */}
+                        <Route path="support-ticket" element={<Navigate to="/dashboard" replace />} />
+                        <Route path="support-ticket/details/:id" element={<Navigate to="/dashboard" replace />} />
 
                         {/* Catch-all fallback (optional but useful) */}
                         <Route path={`*`} element={<Navigate to="/dashboard" />} />

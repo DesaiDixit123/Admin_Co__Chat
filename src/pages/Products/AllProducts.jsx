@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { InputSwitch } from 'primereact/inputswitch';
 import { useDispatch } from 'react-redux';
 import { useProductList } from '../../Store/Selectors/Product/Product_Selector';
-import { productsChangeStatus, productsListWithPagination } from '../../Store/Action/Product/Product_Action';
+import { productsChangeStatus, productsListWithPagination, productsDelete } from '../../Store/Action/Product/Product_Action';
 import { Status } from '../../common/CommonArray';
 import CustomDropdown from '../../components/UI/CustomDropdown';
+import CommonDialog from '../../common/CommonDialog';
 import toast from 'react-hot-toast';
 
 const AllProducts = () => {
@@ -16,6 +17,8 @@ const AllProducts = () => {
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState("")
     const [pagination, setPagination] = useState({ page: 1, limit: 10 })
+    const [commonData, setCommonData] = useState({});
+    const [deletePopup, setDeletePopup] = useState({ isOpen: false, data: {} });
     const dispatch = useDispatch()
     const Data = useProductList()
 
@@ -24,13 +27,46 @@ const AllProducts = () => {
         { key: 'price', label: 'Price', renderCell: (key, row) => row?.price || "-" },
         { key: 'offer', label: 'Offer', renderCell: (key, row) => row?.offer ? `${row?.offer}${row?.offer_type == "percentage" ? "%" : "₹"}` : "-" },
         { key: "createdAt", label: "Created Date", renderCell: (key, row) => row?.createdAt ? moment(row?.createdAt).format("DD/MM/YYYY") : "-" },
-        { key: "status", label: "On/Off", renderCell: (key, row) => <InputSwitch checked={row?.status} onChange={() => handleStatusChange(row.id)} /> },
+        { key: "status", label: "On/Off", renderCell: (key, row) => <InputSwitch checked={row?.status} onChange={() => handleStatusChange(row._id || row.id)} /> },
         {
             key: "action", label: "Action", renderCell: (key, row) => <div className="flex items-center space-x-2.5">
-                <span className="icon-eye font-semibold text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row._id}`)}></span>
+                <span title="View Details" className="icon-eye font-semibold text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row._id}`)}></span>
+                <span title="Delete Product" className="icon-trash font-semibold text-[18px] lg:text-[20px] xl:text-[24px] cursor-pointer" style={{ color: '#FF3B30' }} onClick={() => openDeleteDialog(row)}></span>
             </div>
         },
     ]
+
+    const openDeleteDialog = (row) => {
+        setCommonData({
+            title: "Delete Product",
+            description: `Are you sure you want to delete "${row.name || 'this product'}"? This product will be permanently removed from the marketplace and database.`,
+            buttonNames: { firstBtn: "Cancel", secondBtn: "Delete" },
+        });
+        setDeletePopup({
+            isOpen: true,
+            data: row,
+        });
+    };
+
+    const closeDeleteDialog = async (confirmed) => {
+        if (confirmed && (deletePopup?.data?._id || deletePopup?.data?.id)) {
+            try {
+                const pId = deletePopup.data._id || deletePopup.data.id;
+                const payload = { productId: pId };
+                const response = await dispatch(productsDelete(payload));
+                if (response?.IsSuccess) {
+                    toast.success(response?.Message || "Product deleted successfully");
+                    GetProductData(pagination.page, pagination.limit);
+                } else {
+                    toast.error(response?.Message || "Failed to delete product");
+                }
+            } catch (error) {
+                console.error("Delete product error:", error);
+                toast.error("Failed to delete product");
+            }
+        }
+        setDeletePopup({ isOpen: false, data: {} });
+    };
 
     const handleStatusChange = async (id) => {
         try {
@@ -86,6 +122,7 @@ const AllProducts = () => {
                     <CustomTable columns={columns} data={Data?.data} isPagination={true} totalRecords={Data?.pagination?.total} handlePageChange={GetProductData} pagination={pagination} />
                 </div>
             </div>
+            {deletePopup.isOpen && <CommonDialog CommonData={commonData} closeCommonDialog={closeDeleteDialog} />}
         </>
     )
 }

@@ -34,7 +34,7 @@ const SupportTicket = () => {
     {
       key: "action", label: "Action", renderCell: (key, row) => <div className="flex items-center space-x-2.5">
         <span className="icon-eye text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row.id}`)}></span>
-        {hasPermissionDelete && <span className="icon-trash text-[18px] lg:text-[20px] xl:text-[24px] text-red cursor-pointer" onClick={() => DeleteOpenDialog(row)}></span>}
+        {hasPermissionDelete && <span className="icon-trash text-[18px] lg:text-[20px] xl:text-[24px] text-red cursor-pointer" style={{ color: '#FF3B30' }} onClick={() => DeleteOpenDialog(row)}></span>}
       </div>
     }]
 

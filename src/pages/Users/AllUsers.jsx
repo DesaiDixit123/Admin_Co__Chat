@@ -50,7 +50,8 @@ const AllUsers = () => {
         <span className="icon-eye text-[18px] lg:text-[20px] xl:text-[24px] text-g1 cursor-pointer" onClick={() => navigate(`./details/${row.id || row._id}`)}></span>
         <span
           title="Delete User"
-          className="icon-trash text-[18px] lg:text-[20px] xl:text-[22px] text-red-500 hover:brightness-75 cursor-pointer transition"
+          className="icon-trash text-[18px] lg:text-[20px] xl:text-[22px] text-red cursor-pointer transition hover:opacity-75"
+          style={{ color: '#FF3B30' }}
           onClick={() => openDeleteDialog(row)}
         ></span>
       </div>
